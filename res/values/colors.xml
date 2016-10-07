@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="app_bg">#FFFFFF</color>
+    <color name="app_transparent">#00000000</color>
+    <color name="app_title_bg">#4D7F3B</color>
+    <color name="menulistview_first_bg">#96AE68</color>
+    <color name="menulistview_first_bg_border">#BBCB92</color>
+    <color name="menulistview_second_text">#FAFCF6</color>
+    <color name="menulistview_second_bg_normal">#97AF69</color>
+    <color name="menulistview_second_bg_selected">#4D7F3B</color>
+    <color name="menulistview_third_title_text">#3B3D3A</color>
+    <color name="menulistview_third_content_text">#484A47</color>
+    <color name="menulistview_third_bg_normal">#FFFFFF</color>
+    <color name="menulistview_third_bg_border_normal">#4D7F3B</color>
+    <color name="menulistview_third_bg_selected">#4D7F3B</color>
+    <color name="menulistview_third_bg_border_selected">#97AF69</color>
+
+</resources>

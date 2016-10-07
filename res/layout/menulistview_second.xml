@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/menulistview_second_bg"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/txtMenuSecond"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableRight="@drawable/menulistview_second_icon_more"
+        android:gravity="center_vertical"
+        android:padding="16dip"
+        android:textColor="@color/menulistview_second_text"
+        android:textIsSelectable="false"
+        android:textSize="20sp" />
+
+</LinearLayout>

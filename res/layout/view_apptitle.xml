@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="75dip"
+    android:background="@color/app_title_bg"
+    android:gravity="center_vertical" >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="50dip"
+        android:paddingRight="30dip"
+        android:scaleType="center"
+        android:src="@drawable/app_title" />
+
+    <RelativeLayout
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingBottom="10dip"
+        android:paddingLeft="15dip"
+        android:paddingRight="25dip"
+        android:paddingTop="10dip" >
+
+        <EditText
+            android:id="@+id/txtSearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/txt_search_bg"
+            android:hint="关键字"
+            android:imeOptions="actionSearch"
+            android:padding="10dip"
+            android:singleLine="true"
+            android:textColor="#3B3D3E"
+            android:textColorHint="#CCCECC"
+            android:textSize="25sp" >
+        </EditText>
+
+        <ImageButton
+            android:id="@+id/imgBtnSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="#EEF3FA"
+            android:scaleType="center"
+            android:src="@drawable/app_title_search" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txtBtnSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dip"
+        android:text="设 置"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/txtBtnHomepage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dip"
+        android:text="主 页"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp" />
+
+</LinearLayout>

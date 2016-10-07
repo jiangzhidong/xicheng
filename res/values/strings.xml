@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="tag_first" type="id"></item>
+    <item name="tag_second" type="id"></item>
+
+    <string name="app_name">西城名城保护</string>
+    <string name="image_null">图片加载中</string>
+
+</resources>

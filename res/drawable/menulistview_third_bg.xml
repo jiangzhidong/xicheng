@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_selected="true"><shape>
+            <solid android:color="@color/menulistview_third_bg_selected" />
+
+            <stroke android:width="2dip" android:color="@color/menulistview_third_bg_border_selected" />
+        </shape></item>
+    <item><shape>
+            <solid android:color="@color/menulistview_third_bg_normal" />
+
+            <stroke android:width="2dip" android:color="@color/menulistview_third_bg_border_normal" />
+        </shape></item>
+
+</selector>

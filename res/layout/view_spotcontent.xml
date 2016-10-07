@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="460dip"
+            android:background="#E9EDE1"
+            android:orientation="vertical"
+            android:paddingLeft="24dip"
+            android:paddingRight="24dip"
+            android:paddingTop="12dip" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingBottom="20dip" >
+
+                <ImageView
+                    android:id="@+id/imgSpot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="358dip"
+                    android:contentDescription="@string/image_null"
+                    android:scaleType="fitXY" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="12dip"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/txtSpotName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lines="1"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="#252624"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtSpotSummary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="15dip"
+                        android:layout_marginTop="15dip"
+                        android:lines="1"
+                        android:textColor="#8A8785"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/txtSpotAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dip"
+                        android:layout_marginTop="5dip"
+                        android:lines="1"
+                        android:textColor="#5A5B59"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dip" >
+
+                <Button
+                    android:id="@+id/btnSpotWord"
+                    android:layout_width="65dip"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/btn_spot_scroll_bg"
+                    android:text="正文"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/btnSpotImageList"
+                    android:layout_width="65dip"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dip"
+                    android:background="@drawable/btn_spot_scroll_bg"
+                    android:text="照片"
+                    android:textColor="#FFFFFF" />
+
+                <Spinner
+                    android:id="@+id/spinnerNian"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft  ="242dp"
+                    android:layout_weight="0.00"
+                    android:spinnerMode="dropdown" 
+                    style="?android:attr/spinnerDropDownItemStyle"
+                    android:entries="@array/years" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutSpotDesc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <ScrollView
+                android:id="@+id/scrollSpotDesc"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1"
+                android:fillViewport="true"
+                android:overScrollMode="never" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="30dip" >
+
+                    <TextView
+                        android:id="@+id/txtSpotDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#6E6F6D"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </ScrollView>
+
+            <RelativeLayout
+                android:id="@+id/layoutViewAll"
+                android:layout_width="match_parent"
+                android:layout_height="60dip"
+                android:gravity="right|center_vertical" >
+
+                <Button
+                    android:id="@+id/btnViewAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="72dp"
+                    android:text="阅读全文" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/scrollSpotImageList"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:fillViewport="true" >
+
+            <LinearLayout
+                android:id="@+id/layoutSpotImageList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="10dip"
+                android:paddingRight="10dip" >
+                
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/btnClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/btn_spotcontent_close" />
+
+</RelativeLayout>
