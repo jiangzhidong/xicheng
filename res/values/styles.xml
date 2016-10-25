@@ -20,7 +20,7 @@
     <style name="menulistview_first_icon" parent="android:Widget.ImageButton">
         <item name="android:background">@drawable/menulistview_first_icon_bg</item>
         <item name="android:scaleType">centerInside</item>
-        <item name="android:padding">5dip</item>
+        <item name="android:padding">@dimen/dimen_dip_5</item>
     </style>
 
 </resources>

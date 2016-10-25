@@ -15,12 +15,12 @@
 
     <!-- 横向分布 -->
     <style name="layout_horizontal" parent="layout_full">
-        <item name="android:layout_width">0px</item>
+        <item name="android:layout_width">@dimen/dimen_px_0</item>
     </style>
 
     <!-- 纵向分布 -->
     <style name="layout_vertical" parent="layout_full">
-        <item name="android:layout_height">0px</item>
+        <item name="android:layout_height">@dimen/dimen_px_0</item>
     </style>
 
 </resources>
