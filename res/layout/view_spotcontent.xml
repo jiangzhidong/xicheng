@@ -93,16 +93,33 @@
                     android:text="照片"
                     android:textColor="#FFFFFF" />
 
+                <Button
+                    android:id="@+id/btnSpotPano"
+                    android:layout_width="65dip"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dip"
+                    android:background="@drawable/btn_spot_scroll_bg"
+                    android:text="全景"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/btnSpotBaike"
+                    android:layout_width="65dip"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dip"
+                    android:background="@drawable/btn_spot_scroll_bg"
+                    android:text="百科"
+                    android:textColor="#FFFFFF" />
+
                 <Spinner
                     android:id="@+id/spinnerNian"
+                    style="?android:attr/spinnerDropDownItemStyle"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft  ="242dp"
+                    android:layout_marginLeft="242dp"
                     android:layout_weight="0.00"
-                    android:spinnerMode="dropdown" 
-                    style="?android:attr/spinnerDropDownItemStyle"
-                    android:entries="@array/years" />
-
+                    android:entries="@array/years"
+                    android:spinnerMode="dropdown" />
             </LinearLayout>
         </LinearLayout>
 
@@ -164,7 +181,6 @@
                 android:orientation="vertical"
                 android:paddingLeft="10dip"
                 android:paddingRight="10dip" >
-                
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
