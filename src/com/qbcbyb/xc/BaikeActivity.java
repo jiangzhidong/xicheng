@@ -1,14 +1,19 @@
 package com.qbcbyb.xc;
 
+import com.baidu.lbsapi.panoramaview.PanoramaView;
+import com.qbcbyb.xc.model.SpotModel;
+
 import android.content.DialogInterface;
 import android.os.Message;
+import android.widget.TextView;
 
-public class BaikeActivity extends ActivityBase {
+public class BaikeActivity extends TitleWithBackActivity {
+    private SpotModel model;
 
     @Override
-    protected void setLayout() {
-        // TODO Auto-generated method stub
-
+    protected void initLayout(TextView title) {
+        model = (SpotModel) getIntent().getSerializableExtra(KEY_SPOT);
+        title.setText(model.getName());
     }
 
     @Override

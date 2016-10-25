@@ -12,12 +12,16 @@ import com.qbcbyb.xc.util.GeometryUtil;
 
 import android.content.DialogInterface;
 import android.os.Message;
+import android.widget.TextView;
 
-public class PanoActivity extends ActivityBase {
+public class PanoActivity extends TitleWithBackActivity {
     private PanoramaView mPanoView;
+    private SpotModel model;
 
     @Override
-    protected void setLayout() {
+    protected void initLayout(TextView title) {
+        model = (SpotModel) getIntent().getSerializableExtra(KEY_SPOT);
+        title.setText(model.getName());
         mPanoView = new PanoramaView(this);
         setContentView(mPanoView);
 
@@ -44,7 +48,6 @@ public class PanoActivity extends ActivityBase {
     @Override
     protected void doInit() {
         super.doInit();
-        SpotModel model = (SpotModel) getIntent().getSerializableExtra(KEY_SPOT);
         CGeometry geometry = model.getGeometry();
         if (geometry != null) {
             double lon = 0, lat = 0;
