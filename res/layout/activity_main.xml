@@ -7,45 +7,45 @@
     tools:context=".MainActivity" >
 
     <LinearLayout
-        android:layout_width="110dip"
+        android:layout_width="@dimen/dimen_dip_110"
         android:layout_height="match_parent"
         android:background="@color/menulistview_first_bg"
         android:orientation="vertical"
-        android:padding="5dip" >
+        android:padding="@dimen/dimen_dip_5" >
 
         <ImageButton
             android:id="@+id/imgBtnShare"
             style="@style/menulistview_first_icon"
             android:layout_width="match_parent"
-            android:layout_height="100dip"
-            android:layout_marginTop="60dip"
+            android:layout_height="@dimen/dimen_dip_100"
+            android:layout_marginTop="@dimen/dimen_dip_60"
             android:src="@drawable/menulistview_first_icon_share" />
 
         <ImageButton
             android:id="@+id/imgBtnHistorical"
             style="@style/menulistview_first_icon"
             android:layout_width="match_parent"
-            android:layout_height="100dip"
+            android:layout_height="@dimen/dimen_dip_100"
             android:src="@drawable/menulistview_first_icon_historical" />
 
         <ImageButton
             android:id="@+id/imgBtnStreet"
             style="@style/menulistview_first_icon"
             android:layout_width="match_parent"
-            android:layout_height="100dip"
+            android:layout_height="@dimen/dimen_dip_100"
             android:src="@drawable/menulistview_first_icon_street" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0dip"
+            android:layout_height="@dimen/dimen_dip_0"
             android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/imgBtnExplain"
             style="@style/menulistview_first_icon"
             android:layout_width="match_parent"
-            android:layout_height="100dip"
-            android:layout_marginBottom="20dip"
+            android:layout_height="@dimen/dimen_dip_100"
+            android:layout_marginBottom="@dimen/dimen_dip_20"
             android:src="@drawable/menulistview_first_icon_explain" />
     </LinearLayout>
 
@@ -62,25 +62,25 @@
 
             <ListView
                 android:id="@+id/listSecondMenu"
-                android:layout_width="254dip"
+                android:layout_width="@dimen/dimen_dip_254"
                 android:layout_height="match_parent"
                 android:background="#CBD7B4"
                 android:divider="@color/app_transparent"
-                android:dividerHeight="1dip"
+                android:dividerHeight="@dimen/dimen_dip_1"
                 android:listSelector="@color/app_transparent"
-                android:padding="1dip"
+                android:padding="@dimen/dimen_dip_1"
                 android:visibility="gone" >
             </ListView>
 
             <ListView
                 android:id="@+id/listThirdMenu"
-                android:layout_width="284dip"
+                android:layout_width="@dimen/dimen_dip_284"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="1dip"
+                android:layout_marginLeft="@dimen/dimen_dip_1"
                 android:divider="@color/app_transparent"
-                android:dividerHeight="1dip"
+                android:dividerHeight="@dimen/dimen_dip_1"
                 android:listSelector="@color/app_transparent"
-                android:padding="1dip"
+                android:padding="@dimen/dimen_dip_1"
                 android:visibility="gone" >
             </ListView>
 
@@ -92,13 +92,13 @@
                     android:id="@+id/mapView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="1dip"
+                    android:layout_margin="@dimen/dimen_dip_1"
                     android:clickable="true" >
                 </com.baidu.mapapi.map.MapView>
 
                 <include
                     android:id="@+id/layoutSpotContent"
-                    android:layout_margin="1dip"
+                    android:layout_margin="@dimen/dimen_dip_1"
                     layout="@layout/view_spotcontent"
                     android:visibility="gone" />
                 <!-- 添加按钮 -->
@@ -107,7 +107,7 @@
                     android:id="@+id/progressBar"
                     style="@android:style/Widget.ProgressBar.Horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="5dip"
+                    android:layout_height="@dimen/dimen_dip_5"
                     android:layout_alignParentBottom="true"
                     android:max="100"
                     android:visibility="gone" />

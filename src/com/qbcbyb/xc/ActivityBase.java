@@ -7,6 +7,7 @@ import com.qbcbyb.xc.util.ApplicationMain;
 import com.qbcbyb.xc.util.Config;
 
 public abstract class ActivityBase extends com.qbcbyb.libandroid.ActivityBase {
+    public static final String KEY_SPOT="KEY_SPOT";
 
     public Config getConfig() {
         ApplicationMain app = (ApplicationMain) getApplication();

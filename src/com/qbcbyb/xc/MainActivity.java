@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
@@ -81,13 +82,13 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
     private final int ID_Share = 1;
     private final int ID_Historical = 2;
     private final int ID_Street = 3;
-    
+
     private Map<Integer,ResponseResult<SpotModel>> cacheSpot = new HashMap<Integer,ResponseResult<SpotModel>>();
-    
+
     private int imsb = 1;
-    //默认字号
-    private int defaultSize = 1; 
-    
+    // 默认字号
+    private int defaultSize = 1;
+
     private String imageUrlD = "";
 
     private final SparseIntArray TextSizeArray = new SparseIntArray() {
@@ -97,8 +98,8 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
             put(2, 24);
         }
     };
-    
-    private String[] imageList ;
+
+    private String[] imageList;
     private StartDialog dialog;
 
     private ImageButton imgBtnShare;
@@ -107,7 +108,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
     private ImageButton imgBtnExplain;
     private ListView listSecondMenu;
     private ListView listThirdMenu;
-    
+
     private WebView helpHtml;
 
     private View txtBtnSetting;
@@ -131,6 +132,8 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
     private LinearLayout layoutSpotImageList;
     private Button btnSpotWord;
     private Button btnSpotImageList;
+    private Button btnSpotPano;
+    private Button btnSpotBaike;
 
     private View btnSpotScroll;
 
@@ -145,7 +148,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
     private BDMapOfflineManager mapOfflineManager = null;
     private MapController mMapController = null;
 
-    private SpotOverlay spotOverlay; 
+    private SpotOverlay spotOverlay;
     private SpotOverlay spotOverlayblue;
     private SpotOverlay spotOverlaygreed;
     private SpotOverlay spotOverlaypurple;
@@ -182,6 +185,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
         }
         listThirdMenu.setVisibility(View.GONE);
     }
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
@@ -192,7 +196,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
         return super.onKeyDown(keyCode, event);
     }
     private OnClickListener clickListener = new OnClickListener() {
-    	
+
         @Override
         public void onClick(View v) {
             if (v == imgBtnShare || v == imgBtnHistorical || v == imgBtnStreet) {
@@ -206,14 +210,18 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
                 closeSpotContent();
             } else if (v == btnSpotWord || v == btnSpotImageList) {
                 setNowSelectBtn(v);
-                if(v==btnSpotWord){
-                	spinnerNian.setVisibility(View.INVISIBLE);
-                }else{
-                	spinnerNian.setVisibility(View.VISIBLE);
+                if (v == btnSpotWord) {
+                    spinnerNian.setVisibility(View.INVISIBLE);
+                } else {
+                    spinnerNian.setVisibility(View.VISIBLE);
                 }
+            } else if (v == btnSpotPano) {
+                openActivityWithSpot(v,PanoActivity.class);
+            } else if (v == btnSpotBaike) {
+                openActivityWithSpot(v,BaikeActivity.class);
             } else if (v == txtBtnSetting) {
                 // TODO设置
-            	AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this).setTitle("字号选择");
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this).setTitle("字号选择");
                 DialogInterface.OnClickListener singleClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -230,25 +238,25 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
             } else if (v == imgBtnSearch) {
                 startSearch();
             } else if (v == txtBtnHomepage) {
-            	clearAllSpotOverlay();
+                clearAllSpotOverlay();
                 setSelectedFirstMenu(getSelectedFirstMenu());
                 mMapController.setCenter(new GeoPoint(39913226, 116362203));
                 mMapController.setZoom(13);
-                
+
                 spotOverlay.hidePopup();
-            }else if (v == imgBtnExplain) {
-            	helpHtml = new WebView(MainActivity.this);
-            	helpHtml.loadUrl("file:///android_asset/readme.html");
-            	AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            } else if (v == imgBtnExplain) {
+                helpHtml = new WebView(MainActivity.this);
+                helpHtml.loadUrl("file:///android_asset/readme.html");
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 DialogInterface.OnClickListener singleClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
                 };
-                //builder.setNegativeButton("确  定", singleClickListener);
+                // builder.setNegativeButton("确  定", singleClickListener);
                 builder.setView(helpHtml);
-                //builder
+                // builder
                 AlertDialog dialog = builder.create();
                 dialog.show();
             }
@@ -274,7 +282,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
             }
             return false;
         }
-        
+
     };
 
     private OnSelectedChange onSelectedChange = new OnSelectedChange() {
@@ -301,17 +309,17 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
                             SecondMenuModel secondMenu = (SecondMenuModel) selectedData;
 
                             loadThirdMenu(secondMenu.getId());
-                            if(secondMenu.getId().intValue()==18){
-                            	imsb=0;
-                            }else if(secondMenu.getId().intValue()==22){
-                            	imsb=22;
+                            if (secondMenu.getId().intValue() == 18) {
+                                imsb = 0;
+                            } else if (secondMenu.getId().intValue() == 22) {
+                                imsb = 22;
                             }
-                          
+
                             initRegion(secondMenu.getGeometry());
                             if (listAdapterThirdMenu != null) {
                                 listAdapterThirdMenu.setSelectedIndex(-1);
                             }
-                            //initRegion(secondMenu.getGeometry());
+                            // initRegion(secondMenu.getGeometry());
                         }
                     }
                 } else {
@@ -335,25 +343,25 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
 
                     Object selectedData = listAdapterThirdMenu.getItem(newIndex);
                     if (selectedData != null) {
-                    	 if (selectedData instanceof SpotModel) {
-                             closeSpotContent();
-                             SpotModel spotData = (SpotModel) selectedData;
-                             final SpotOverlayItem overlayItem = SpotOverlayItem.genrateOverlayItem(spotData);
-                             if (overlayItem != null) {
-                                 Handler handler = new Handler() {
-                                     @Override
-                                     public void handleMessage(Message msg) {
-                                         super.handleMessage(msg);
-                                         // 显示指定景点弹窗
-                                         spotOverlay.showPopup(overlayItem);
-                                     }
-                                 };
-                                 mapView.getController().animateTo(overlayItem.getPoint(), handler.obtainMessage(1));
-                             }
-                         }
+                        if (selectedData instanceof SpotModel) {
+                            closeSpotContent();
+                            SpotModel spotData = (SpotModel) selectedData;
+                            final SpotOverlayItem overlayItem = SpotOverlayItem.genrateOverlayItem(spotData);
+                            if (overlayItem != null) {
+                                Handler handler = new Handler() {
+                                    @Override
+                                    public void handleMessage(Message msg) {
+                                        super.handleMessage(msg);
+                                        // 显示指定景点弹窗
+                                        spotOverlay.showPopup(overlayItem);
+                                    }
+                                };
+                                mapView.getController().animateTo(overlayItem.getPoint(), handler.obtainMessage(1));
+                            }
+                        }
                     }
                 } else {
-                	clearAllSpotOverlay();
+                    clearAllSpotOverlay();
                     mapView.refresh();
                     closeSpotContent();
                 }
@@ -385,66 +393,66 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
         }
 
         @Override
-   public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         }
     };
     /**
      * 图片列表年度选择
      */
-    private OnItemSelectedListener onItemSelectListener   = new OnItemSelectedListener(){
-    	@Override
-    	public void onItemSelected(AdapterView parent, View view,int position, long id) {
-    			String yearstr=parent.getItemAtPosition(position).toString();//选择的值
-    			// 加载图片列表
-                layoutSpotImageList.removeAllViews();
-                final android.widget.LinearLayout.LayoutParams layoutParams = new android.widget.LinearLayout.LayoutParams(
-                    0, 200);
-                layoutParams.weight = 1;
-                layoutParams.setMargins(10, 10, 10, 10);
-                int i = 0;
-                LinearLayout layout = null;
-                /**
-                 *  按照选择的年份  
-                 *  重新加载图片
-                 */
-                for (String imgUrl : imageList) {
-                	if(yearstr.startsWith("20")&&!imgUrl.contains(yearstr)){
-                		continue;
-                	}
-            		imageUrlD = imgUrl;
-                    if (i % 3 == 0) {
-                        layout = new LinearLayout(MainActivity.this);
-                        layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-                        layout.setWeightSum(3);
-                        layout.setGravity(Gravity.CENTER_VERTICAL);
-                        layoutSpotImageList.addView(layout);
-                    }
-                    ImageView imageView = new ImageView(MainActivity.this);
-                    imageView.setLayoutParams(layoutParams);
-                    try {
-                        Bitmap bitmap = BitmapConvert.resizeBitmap(ApplicationMain.getInstance().getAssets().open(imgUrl), 200);
-                        imageView.setImageBitmap(bitmap);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-						e.printStackTrace();
-					}
-                    //imageView.setImageDrawable(Drawable.createFromPath(imgUrl));
-                    imageView.setTag(R.id.tag_first, imageList);
-                    imageView.setTag(R.id.tag_second, i);
-                    layout.addView(imageView);
-                    imageView.setOnClickListener(imageClickListener);
-                    i++;
-            	}
-                	
-    			
-    	}
-    	@Override
-    	public void onNothingSelected(AdapterView parent) {
-    	// TODO Auto-generated method stub
-    	}
+    private OnItemSelectedListener onItemSelectListener = new OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView parent, View view, int position, long id) {
+            String yearstr = parent.getItemAtPosition(position).toString();// 选择的值
+            // 加载图片列表
+            layoutSpotImageList.removeAllViews();
+            final android.widget.LinearLayout.LayoutParams layoutParams = new android.widget.LinearLayout.LayoutParams(
+                0, 200);
+            layoutParams.weight = 1;
+            layoutParams.setMargins(10, 10, 10, 10);
+            int i = 0;
+            LinearLayout layout = null;
+            /**
+             * 按照选择的年份 重新加载图片
+             */
+            for (String imgUrl : imageList) {
+                if (yearstr.startsWith("20") && !imgUrl.contains(yearstr)) {
+                    continue;
+                }
+                imageUrlD = imgUrl;
+                if (i % 3 == 0) {
+                    layout = new LinearLayout(MainActivity.this);
+                    layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+                    layout.setWeightSum(3);
+                    layout.setGravity(Gravity.CENTER_VERTICAL);
+                    layoutSpotImageList.addView(layout);
+                }
+                ImageView imageView = new ImageView(MainActivity.this);
+                imageView.setLayoutParams(layoutParams);
+                try {
+                    Bitmap bitmap = BitmapConvert.resizeBitmap(ApplicationMain.getInstance().getAssets().open(imgUrl),
+                        200);
+                    imageView.setImageBitmap(bitmap);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                // imageView.setImageDrawable(Drawable.createFromPath(imgUrl));
+                imageView.setTag(R.id.tag_first, imageList);
+                imageView.setTag(R.id.tag_second, i);
+                layout.addView(imageView);
+                imageView.setOnClickListener(imageClickListener);
+                i++;
+            }
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView parent) {
+            // TODO Auto-generated method stub
+        }
     };
-    
+
     private OnOverlayPopTap onOverlayPopTap = new OnOverlayPopTap() {
 
         @Override
@@ -502,7 +510,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
 
         @Override
         public void onClick(View v) {
-        	
+
             Intent intent = new Intent(MainActivity.this, ImagesActivity.class);
             intent.putExtra(ImagesActivity.BITMAPKEY, (String[]) v.getTag(R.id.tag_first));
             intent.putExtra(ImagesActivity.FIRSTSHOWINDEX, (Integer) v.getTag(R.id.tag_second));
@@ -512,16 +520,15 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
 
     @Override
     protected void onPause() {
-       
-		
-		super.onPause();
+
+        super.onPause();
         mBMapMan.stop();
     }
 
     @Override
     protected void onResume() {
-    	
-        //dialog.dismiss();
+
+        // dialog.dismiss();
         super.onResume();
         mBMapMan.start();
     }
@@ -530,11 +537,11 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
     protected void onDestroy() {
         mapOfflineManager.destroy();
         try {
-        mapView.destroy();
+            mapView.destroy();
         } catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.getMessage();
-		}
+            // TODO Auto-generated catch block
+            e.getMessage();
+        }
         if (mBMapMan != null) {
             mBMapMan.destroy();
             mBMapMan = null;
@@ -579,6 +586,9 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
         layoutSpotImageList = (LinearLayout) findViewById(R.id.layoutSpotImageList);
         btnSpotWord = (Button) findViewById(R.id.btnSpotWord);
         btnSpotImageList = (Button) findViewById(R.id.btnSpotImageList);
+        btnSpotPano = (Button) findViewById(R.id.btnSpotPano);
+        btnSpotBaike = (Button) findViewById(R.id.btnSpotBaike);
+
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         mapView = (MapView) findViewById(R.id.mapView);
@@ -603,6 +613,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
         graphicsOverlay = new GraphicsOverlay(mapView);
         mapView.getOverlays().add(graphicsOverlay);
     }
+
     /**
      * 此处注册监听
      */
@@ -628,6 +639,8 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
         btnClose.setOnClickListener(clickListener);
         btnSpotWord.setOnClickListener(clickListener);
         btnSpotImageList.setOnClickListener(clickListener);
+        btnSpotPano.setOnClickListener(clickListener);
+        btnSpotBaike.setOnClickListener(clickListener);
         spinnerNian.setOnItemSelectedListener(onItemSelectListener);
         spotOverlay.setOnOverlayPopTap(onOverlayPopTap);
         spotOverlayblue.setOnOverlayPopTap(onOverlayPopTap);
@@ -643,7 +656,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
     protected void handleMessage(Message msg) {
         switch (MessageWhat.values()[msg.what]) {
         case LoadSecondMenu:
-        	
+
             if (msg.arg1 == RequestStatus.OK.ordinal()) {
                 ResponseResult<List<SecondMenuModel>> result = (ResponseResult<List<SecondMenuModel>>) msg.obj;
                 pageSecondMenu.setTotalCount(result.getAllCount());
@@ -710,22 +723,25 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
                 final SpotModel spotModel = result.getResultObj();
                 Drawable drawable = null;
                 try {
-	                if (spotModel.getDetailImages() != null && spotModel.getDetailImages().size() > 0) {
-	                   
-							drawable = Drawable.createFromStream(ApplicationMain.getInstance().getAssets().open(spotModel.getDetailImages().get(0)), "first");
-						
-	                } else {
-	                    drawable = Drawable
-	                    		.createFromStream(ApplicationMain.getInstance().getAssets().open("img"+spotModel.getImage()), "im");
-	                }
+                    if (spotModel.getDetailImages() != null && spotModel.getDetailImages().size() > 0) {
+
+                        drawable = Drawable
+                            .createFromStream(
+                                ApplicationMain.getInstance().getAssets().open(spotModel.getDetailImages().get(0)),
+                                "first");
+
+                    } else {
+                        drawable = Drawable.createFromStream(
+                            ApplicationMain.getInstance().getAssets().open("img" + spotModel.getImage()), "im");
+                    }
                 } catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
                 if (drawable != null) {
-                	imgSpot.setAdjustViewBounds(true);
-                	imgSpot.setMaxHeight(358);
-                	imgSpot.setMaxWidth(600);
+                    imgSpot.setAdjustViewBounds(true);
+                    imgSpot.setMaxHeight(358);
+                    imgSpot.setMaxWidth(600);
                     imgSpot.setImageDrawable(drawable);
                 } else {
                     imgSpot.setImageResource(R.drawable.nophoto);
@@ -763,12 +779,12 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
                 layoutParams.setMargins(10, 10, 10, 10);
                 int i = 0;
                 LinearLayout layout = null;
-               imageList = spotModel.getDetailImages().toArray(new String[0]);
+                imageList = spotModel.getDetailImages().toArray(new String[0]);
                 for (String imgUrl : imageList) {
-                	imageUrlD = imgUrl;
-//                	if(!imgUrl.contains("2015")){
-//                		continue;
-//                	}
+                    imageUrlD = imgUrl;
+                    // if(!imgUrl.contains("2015")){
+                    // continue;
+                    // }
                     if (i % 3 == 0) {
                         layout = new LinearLayout(MainActivity.this);
                         layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
@@ -779,14 +795,15 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
                     ImageView imageView = new ImageView(MainActivity.this);
                     imageView.setLayoutParams(layoutParams);
                     try {
-                        Bitmap bitmap = BitmapConvert.resizeBitmap(ApplicationMain.getInstance().getAssets().open(imgUrl), 200);
+                        Bitmap bitmap = BitmapConvert.resizeBitmap(
+                            ApplicationMain.getInstance().getAssets().open(imgUrl), 200);
                         imageView.setImageBitmap(bitmap);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
-						e.printStackTrace();
-					}
-                    //imageView.setImageDrawable(Drawable.createFromPath(imgUrl));
+                        e.printStackTrace();
+                    }
+                    // imageView.setImageDrawable(Drawable.createFromPath(imgUrl));
                     imageView.setTag(R.id.tag_first, imageList);
                     imageView.setTag(R.id.tag_second, i);
                     layout.addView(imageView);
@@ -803,6 +820,9 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
                     }
                 }, 300);
                 layoutSpotContent.setVisibility(View.VISIBLE);
+
+                btnSpotPano.setTag(spotModel);
+                btnSpotBaike.setTag(spotModel);
 
             } else if (msg.arg1 == RequestStatus.FAIL.ordinal()) {
                 Msg.showInfo(this, "对不起，当前选择无数据！");
@@ -834,13 +854,10 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
 
         btnSpotWord.setTag(layoutSpotDesc);
         btnSpotImageList.setTag(scrollSpotImageList);
-        
 
         setNowSelectBtn(btnSpotWord);
     }
 
-
-    
     private void initSecondMenu(int firstMenuId) {
         pageSecondMenu.initPage(0, getConfig().getPageSize());
         loadSecondMenu(firstMenuId);
@@ -898,14 +915,14 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
     }
 
     public void initRegion(CGeometry cGeometry) {
-    	int i= 0;
+        int i = 0;
         graphicsOverlay.removeAll();
         if (cGeometry != null && cGeometry.getType() == CGeometryType.polygon && cGeometry.getPoints().length > 3) {
 
             MapPoint[] points = cGeometry.getPoints();
             Bounds bounds = null;
             GeoPoint[] polylinePoints = new GeoPoint[points.length];
-            
+
             for (MapPoint mapPoint : points) {
                 polylinePoints[i] = new GeoPoint((int) (mapPoint.getY() * 1E6), (int) (mapPoint.getX() * 1E6));
                 if (bounds == null) {
@@ -940,22 +957,20 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
             Graphic polygonGraphic = new Graphic(polygonGeometry, polygonSymbol);
 
             graphicsOverlay.setData(polygonGraphic);
-    		int aa = (bounds.rightTop.getLatitudeE6() + bounds.leftBottom.getLatitudeE6())/2;
+            int aa = (bounds.rightTop.getLatitudeE6() + bounds.leftBottom.getLatitudeE6()) / 2;
             mapView.getController().setCenter(
                 new GeoPoint((bounds.rightTop.getLatitudeE6() + bounds.leftBottom.getLatitudeE6()) / 2,
                     (bounds.rightTop.getLongitudeE6() + bounds.leftBottom.getLongitudeE6()) / 2));
-            if(imsb==0){
+            if (imsb == 0) {
                 mapView.getController().setZoom(16);
                 imsb++;
-            }else if(imsb==22){
-            	mapView.getController().setZoom(15);
+            } else if (imsb == 22) {
+                mapView.getController().setZoom(15);
                 imsb++;
-            }else{
+            } else {
                 mapView.getController().zoomToSpan(bounds.rightTop.getLatitudeE6() - bounds.leftBottom.getLatitudeE6(),
                     bounds.rightTop.getLongitudeE6() - bounds.leftBottom.getLongitudeE6());
             }
-            
-            
 
             // mapView.getController().setZoom(13);
             // mapView.getController().animateTo(
@@ -971,15 +986,16 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
     }
 
     protected void querySpotDetail(final SpotModel spotModel) {
-//    	final ProgressDialog dialog = new ProgressDialog(this);  
-//    	dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条  
-//        dialog.setCancelable(true);// 设置是否可以通过点击Back键取消  
-//        dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条  
-//        //dialog.setIcon(R.drawable.ic_launcher);//  
-//        // 设置提示的title的图标，默认是没有的，如果没有设置title的话只设置Icon是不会显示图标的  
-//        dialog.setTitle("提示"); 
-//        dialog.setMessage("正在加载图片……请等待");
-//        dialog.show();  
+        // final ProgressDialog dialog = new ProgressDialog(this);
+        // dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);//
+        // 设置进度条的形式为圆形转动的进度条
+        // dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
+        // dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
+        // //dialog.setIcon(R.drawable.ic_launcher);//
+        // // 设置提示的title的图标，默认是没有的，如果没有设置title的话只设置Icon是不会显示图标的
+        // dialog.setTitle("提示");
+        // dialog.setMessage("正在加载图片……请等待");
+        // dialog.show();
         new BaseThread(baseHandler) {
             @Override
             public void runThread() {
@@ -987,19 +1003,18 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
                 msg.what = MessageWhat.QuerySpotDetail.ordinal();
                 try {
                     ResponseResult<SpotModel> result = cacheSpot.get(spotModel.getId());
-                    if(result==null){
-                    	result = RequestHandler.getInstance().querySpotDetail(spotModel);
-                    	cacheSpot.put(spotModel.getId(), result);
+                    if (result == null) {
+                        result = RequestHandler.getInstance().querySpotDetail(spotModel);
+                        cacheSpot.put(spotModel.getId(), result);
                     }
-                    		
-                    		
+
                     if (result.isSuccess()) {
                         msg.obj = result;
                         msg.arg1 = RequestStatus.OK.ordinal();
                     } else {
                         msg.arg1 = RequestStatus.FAIL.ordinal();
                     }
-                    //dialog.dismiss();	
+                    // dialog.dismiss();
                 } catch (Exception e) {
                     msg.obj = e;
                     msg.arg1 = RequestStatus.ERROR.ordinal();
@@ -1014,27 +1029,27 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
         layoutViewAll.setVisibility(View.VISIBLE);
         setNowSelectBtn(btnSpotWord);
     }
-    protected void close() { 
-        AlertDialog.Builder builder = new Builder(MainActivity.this); 
-        builder.setMessage("确定要退出吗?"); 
-        builder.setTitle("提示"); 
-        builder.setPositiveButton("确认", 
-        new android.content.DialogInterface.OnClickListener() { 
-            @Override 
-            public void onClick(DialogInterface dialog, int which) { 
-                dialog.dismiss(); 
-               finish();
-            } 
-        }); 
-        builder.setNegativeButton("取消", 
-        new android.content.DialogInterface.OnClickListener() { 
-            @Override 
-            public void onClick(DialogInterface dialog, int which) { 
-                dialog.dismiss(); 
-            } 
-        }); 
-        builder.create().show(); 
+
+    protected void close() {
+        AlertDialog.Builder builder = new Builder(MainActivity.this);
+        builder.setMessage("确定要退出吗?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new android.content.DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+        builder.setNegativeButton("取消", new android.content.DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
+
     private void setNowSelectBtn(View btnSpotScroll) {
         if (this.btnSpotScroll != null) {
             this.btnSpotScroll.setSelected(false);
@@ -1060,25 +1075,25 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
 
         for (SpotModel spotModel : modelList) {
             List<SpotOverlayItem> list = SpotOverlayItem.genrateOverlayItemList(spotModel);
-            if(spotModel.getGrade()==null){
-            	spotOverlay.addItem(list);
-            }else if(spotModel.getGrade().equals(Integer.valueOf(4))){
-            	spotOverlayred.addItem(list);
-            }else if(spotModel.getGrade().equals(Integer.valueOf(5))){
-            	spotOverlaygreed.addItem(list);
-            }else if(spotModel.getGrade().equals(Integer.valueOf(6))){
-            	spotOverlayblue.addItem(list);
-            }else if(spotModel.getGrade().equals(Integer.valueOf(7))){
-            	spotOverlayyellow.addItem(list);
-            }else if(spotModel.getGrade().equals(Integer.valueOf(8))){
-            	spotOverlayorange.addItem(list);
-            }else if(spotModel.getGrade().equals(Integer.valueOf(9))){
-            	spotOverlaypurple.addItem(list);
-            }else{
-            	spotOverlay.addItem(list);
+            if (spotModel.getGrade() == null) {
+                spotOverlay.addItem(list);
+            } else if (spotModel.getGrade().equals(Integer.valueOf(4))) {
+                spotOverlayred.addItem(list);
+            } else if (spotModel.getGrade().equals(Integer.valueOf(5))) {
+                spotOverlaygreed.addItem(list);
+            } else if (spotModel.getGrade().equals(Integer.valueOf(6))) {
+                spotOverlayblue.addItem(list);
+            } else if (spotModel.getGrade().equals(Integer.valueOf(7))) {
+                spotOverlayyellow.addItem(list);
+            } else if (spotModel.getGrade().equals(Integer.valueOf(8))) {
+                spotOverlayorange.addItem(list);
+            } else if (spotModel.getGrade().equals(Integer.valueOf(9))) {
+                spotOverlaypurple.addItem(list);
+            } else {
+                spotOverlay.addItem(list);
             }
         }
-        //mapView.getController().animateTo(spotOverlay.getCenter());
+        // mapView.getController().animateTo(spotOverlay.getCenter());
         // mapView.getController().zoomToSpan(spotOverlay.getLatSpanE6(),
         // spotOverlay.getLonSpanE6());
         mapView.refresh();
@@ -1090,11 +1105,12 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
         hideSoftInputFromWindow(txtSearch.getWindowToken());
         baseHandler.postDelayed(searchRunnable, 200);
     }
+
     /**
      * 去除所有覆盖层（气泡）
      */
-    private void clearAllSpotOverlay(){
-    	spotOverlay.removeAll();
+    private void clearAllSpotOverlay() {
+        spotOverlay.removeAll();
         spotOverlayblue.removeAll();
         spotOverlaygreed.removeAll();
         spotOverlaypurple.removeAll();
@@ -1102,7 +1118,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
         spotOverlayyellow.removeAll();
         spotOverlayorange.removeAll();
     }
-    
+
     @Override
     public void onGetNetworkState(int arg0) {
     }
@@ -1111,12 +1127,21 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
     public void onGetPermissionState(int arg0) {
     }
 
-	public String getImageUrlD() {
-		return imageUrlD;
-	}
+    public String getImageUrlD() {
+        return imageUrlD;
+    }
 
-	public void setImageUrlD(String imageUrlD) {
-		this.imageUrlD = imageUrlD;
-	}
+    public void setImageUrlD(String imageUrlD) {
+        this.imageUrlD = imageUrlD;
+    }
+
+    private void openActivityWithSpot(View btn,Class<? extends Activity> clasz) {
+        if (btn.getTag() != null && btn.getTag() instanceof SpotModel) {
+            SpotModel model = (SpotModel) btn.getTag();
+            Intent intent=new Intent(MainActivity.this, clasz);
+            intent.putExtra(KEY_SPOT, model);
+            startActivity(intent);
+        }
+    }
 
 }

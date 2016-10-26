@@ -4,12 +4,12 @@
     <item android:state_selected="true"><shape>
             <solid android:color="@color/menulistview_third_bg_selected" />
 
-            <stroke android:width="2dip" android:color="@color/menulistview_third_bg_border_selected" />
+            <stroke android:width="@dimen/dimen_dip_2" android:color="@color/menulistview_third_bg_border_selected" />
         </shape></item>
     <item><shape>
             <solid android:color="@color/menulistview_third_bg_normal" />
 
-            <stroke android:width="2dip" android:color="@color/menulistview_third_bg_border_normal" />
+            <stroke android:width="@dimen/dimen_dip_2" android:color="@color/menulistview_third_bg_border_normal" />
         </shape></item>
 
 </selector>

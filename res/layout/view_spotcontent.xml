@@ -11,32 +11,32 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="460dip"
+            android:layout_height="@dimen/dimen_dip_460"
             android:background="#E9EDE1"
             android:orientation="vertical"
-            android:paddingLeft="24dip"
-            android:paddingRight="24dip"
-            android:paddingTop="12dip" >
+            android:paddingLeft="@dimen/dimen_dip_24"
+            android:paddingRight="@dimen/dimen_dip_24"
+            android:paddingTop="@dimen/dimen_dip_12" >
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dip"
+                android:layout_height="@dimen/dimen_dip_0"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingBottom="20dip" >
+                android:paddingBottom="@dimen/dimen_dip_20" >
 
                 <ImageView
                     android:id="@+id/imgSpot"
                     android:layout_width="wrap_content"
-                    android:layout_height="358dip"
+                    android:layout_height="@dimen/dimen_dip_358"
                     android:contentDescription="@string/image_null"
                     android:scaleType="fitXY" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="12dip"
+                    android:layout_marginTop="@dimen/dimen_dip_12"
                     android:orientation="vertical" >
 
                     <TextView
@@ -53,8 +53,8 @@
                         android:id="@+id/txtSpotSummary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dip"
-                        android:layout_marginTop="15dip"
+                        android:layout_marginBottom="@dimen/dimen_dip_15"
+                        android:layout_marginTop="@dimen/dimen_dip_15"
                         android:lines="1"
                         android:textColor="#8A8785"
                         android:textSize="16sp" />
@@ -63,8 +63,8 @@
                         android:id="@+id/txtSpotAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dip"
-                        android:layout_marginTop="5dip"
+                        android:layout_marginBottom="@dimen/dimen_dip_5"
+                        android:layout_marginTop="@dimen/dimen_dip_5"
                         android:lines="1"
                         android:textColor="#5A5B59"
                         android:textSize="14sp"
@@ -74,11 +74,11 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dip" >
+                android:layout_height="@dimen/dimen_dip_35" >
 
                 <Button
                     android:id="@+id/btnSpotWord"
-                    android:layout_width="65dip"
+                    android:layout_width="@dimen/dimen_dip_65"
                     android:layout_height="match_parent"
                     android:background="@drawable/btn_spot_scroll_bg"
                     android:text="正文"
@@ -86,23 +86,40 @@
 
                 <Button
                     android:id="@+id/btnSpotImageList"
-                    android:layout_width="65dip"
+                    android:layout_width="@dimen/dimen_dip_65"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dip"
+                    android:layout_marginLeft="@dimen/dimen_dip_10"
                     android:background="@drawable/btn_spot_scroll_bg"
                     android:text="照片"
                     android:textColor="#FFFFFF" />
 
+                <Button
+                    android:id="@+id/btnSpotPano"
+                    android:layout_width="@dimen/dimen_dip_65"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dimen_dip_10"
+                    android:background="@drawable/btn_spot_scroll_bg"
+                    android:text="全景"
+                    android:textColor="#FFFFFF" />
+
+                <Button
+                    android:id="@+id/btnSpotBaike"
+                    android:layout_width="@dimen/dimen_dip_65"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dimen_dip_10"
+                    android:background="@drawable/btn_spot_scroll_bg"
+                    android:text="百科"
+                    android:textColor="#FFFFFF" />
+
                 <Spinner
                     android:id="@+id/spinnerNian"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft  ="242dp"
-                    android:layout_weight="0.00"
-                    android:spinnerMode="dropdown" 
                     style="?android:attr/spinnerDropDownItemStyle"
-                    android:entries="@array/years" />
-
+                    android:layout_width="@dimen/dimen_dp_100"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_dp_242"
+                    android:layout_weight="0.00"
+                    android:entries="@array/years"
+                    android:spinnerMode="dropdown" />
             </LinearLayout>
         </LinearLayout>
 
@@ -115,7 +132,7 @@
             <ScrollView
                 android:id="@+id/scrollSpotDesc"
                 android:layout_width="match_parent"
-                android:layout_height="0dip"
+                android:layout_height="@dimen/dimen_dip_0"
                 android:layout_weight="1"
                 android:fillViewport="true"
                 android:overScrollMode="never" >
@@ -124,7 +141,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="30dip" >
+                    android:padding="@dimen/dimen_dip_30" >
 
                     <TextView
                         android:id="@+id/txtSpotDesc"
@@ -138,14 +155,14 @@
             <RelativeLayout
                 android:id="@+id/layoutViewAll"
                 android:layout_width="match_parent"
-                android:layout_height="60dip"
+                android:layout_height="@dimen/dimen_dip_60"
                 android:gravity="right|center_vertical" >
 
                 <Button
                     android:id="@+id/btnViewAll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="72dp"
+                    android:layout_marginRight="@dimen/dimen_dp_72"
                     android:text="阅读全文" />
             </RelativeLayout>
         </LinearLayout>
@@ -153,7 +170,7 @@
         <ScrollView
             android:id="@+id/scrollSpotImageList"
             android:layout_width="match_parent"
-            android:layout_height="0dip"
+            android:layout_height="@dimen/dimen_dip_0"
             android:layout_weight="1"
             android:fillViewport="true" >
 
@@ -162,9 +179,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingLeft="10dip"
-                android:paddingRight="10dip" >
-                
+                android:paddingLeft="@dimen/dimen_dip_10"
+                android:paddingRight="@dimen/dimen_dip_10" >
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

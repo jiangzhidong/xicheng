@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:drawableRight="@drawable/menulistview_second_icon_more"
         android:gravity="center_vertical"
-        android:padding="16dip"
+        android:padding="@dimen/dimen_dip_16"
         android:textColor="@color/menulistview_second_text"
         android:textIsSelectable="false"
         android:textSize="20sp" />
