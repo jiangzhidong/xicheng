@@ -105,6 +105,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
     private ImageButton imgBtnShare;
     private ImageButton imgBtnHistorical;
     private ImageButton imgBtnStreet;
+    private ImageButton imgBtnDownload;
     private ImageButton imgBtnExplain;
     private ListView listSecondMenu;
     private ListView listThirdMenu;
@@ -244,6 +245,8 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
                 mMapController.setZoom(13);
 
                 spotOverlay.hidePopup();
+            } else if (v == imgBtnDownload) {
+                new DownloadUtils(MainActivity.this).showInputDialog();
             } else if (v == imgBtnExplain) {
                 helpHtml = new WebView(MainActivity.this);
                 helpHtml.loadUrl("file:///android_asset/readme.html");
@@ -561,6 +564,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
         imgBtnShare = (ImageButton) findViewById(R.id.imgBtnShare);
         imgBtnHistorical = (ImageButton) findViewById(R.id.imgBtnHistorical);
         imgBtnStreet = (ImageButton) findViewById(R.id.imgBtnStreet);
+        imgBtnDownload = (ImageButton) findViewById(R.id.imgBtnDownload);
         imgBtnExplain = (ImageButton) findViewById(R.id.imgBtnExplain);
         listSecondMenu = (ListView) findViewById(R.id.listSecondMenu);
         listThirdMenu = (ListView) findViewById(R.id.listThirdMenu);
@@ -622,6 +626,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
         imgBtnShare.setOnClickListener(clickListener);
         imgBtnHistorical.setOnClickListener(clickListener);
         imgBtnStreet.setOnClickListener(clickListener);
+        imgBtnDownload.setOnClickListener(clickListener);
         imgBtnExplain.setOnClickListener(clickListener);
 
         txtBtnSetting.setOnClickListener(clickListener);
