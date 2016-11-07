@@ -1,39 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">@dimen/dimen_dp_16</dimen>
-    <dimen name="activity_vertical_margin">@dimen/dimen_dp_16</dimen>
-    
-    <dimen name="dimen_dip_5">5dip</dimen>
-    <dimen name="dimen_dip_2">2dip</dimen>
-    <dimen name="dimen_dip_110">110dip</dimen>
-    <dimen name="dimen_dip_100">100dip</dimen>
-    <dimen name="dimen_dip_60">60dip</dimen>
+    <dimen name="dimen_dip_5">2.5dip</dimen>
+    <dimen name="dimen_dip_2">1dip</dimen>
+    <dimen name="dimen_dip_110">55dip</dimen>
+    <dimen name="dimen_dip_100">50dip</dimen>
+    <dimen name="dimen_dip_60">30dip</dimen>
     <dimen name="dimen_dip_0">0dip</dimen>
-    <dimen name="dimen_dip_20">20dip</dimen>
-    <dimen name="dimen_dip_254">254dip</dimen>
-    <dimen name="dimen_dip_1">1dip</dimen>
-    <dimen name="dimen_dip_284">284dip</dimen>
-    <dimen name="dimen_dip_16">16dip</dimen>
-    <dimen name="dimen_dip_12">12dip</dimen>
-    <dimen name="dimen_dip_90">90dip</dimen>
-    <dimen name="dimen_dip_75">75dip</dimen>
-    <dimen name="dimen_dip_50">50dip</dimen>
-    <dimen name="dimen_dip_30">30dip</dimen>
-    <dimen name="dimen_dip_10">10dip</dimen>
-    <dimen name="dimen_dip_15">15dip</dimen>
-    <dimen name="dimen_dip_25">25dip</dimen>
-    <dimen name="dimen_dip_8">8dip</dimen>
-    <dimen name="dimen_dip_460">460dip</dimen>
-    <dimen name="dimen_dip_24">24dip</dimen>
-    <dimen name="dimen_dip_358">358dip</dimen>
-    <dimen name="dimen_dip_35">35dip</dimen>
-    <dimen name="dimen_dip_65">65dip</dimen>
-    <dimen name="dimen_dp_100">100dp</dimen>
-    <dimen name="dimen_dp_242">242dp</dimen>
-    <dimen name="dimen_dp_72">72dp</dimen>
-    <dimen name="dimen_dp_75">75dp</dimen>
-    <dimen name="dimen_dp_16">16dp</dimen>
+    <dimen name="dimen_dip_20">10dip</dimen>
+    <dimen name="dimen_dip_254">127dip</dimen>
+    <dimen name="dimen_dip_1">0.5dip</dimen>
+    <dimen name="dimen_dip_284">142dip</dimen>
+    <dimen name="dimen_dip_16">8dip</dimen>
+    <dimen name="dimen_dip_12">6dip</dimen>
+    <dimen name="dimen_dip_90">45dip</dimen>
+    <dimen name="dimen_dip_75">37.5dip</dimen>
+    <dimen name="dimen_dip_50">25dip</dimen>
+    <dimen name="dimen_dip_30">15dip</dimen>
+    <dimen name="dimen_dip_10">5dip</dimen>
+    <dimen name="dimen_dip_15">7.5dip</dimen>
+    <dimen name="dimen_dip_25">12.5dip</dimen>
+    <dimen name="dimen_dip_8">4dip</dimen>
+    <dimen name="dimen_dip_460">230dip</dimen>
+    <dimen name="dimen_dip_24">12dip</dimen>
+    <dimen name="dimen_dip_358">179dip</dimen>
+    <dimen name="dimen_dip_35">17.5dip</dimen>
+    <dimen name="dimen_dip_65">32.5dip</dimen>
+    <dimen name="dimen_dp_100">50dp</dimen>
+    <dimen name="dimen_dp_242">121dp</dimen>
+    <dimen name="dimen_dp_72">36dp</dimen>
+    <dimen name="dimen_dp_75">37.5dp</dimen>
+    <dimen name="dimen_dp_16">8dp</dimen>
     <dimen name="dimen_px_0">0px</dimen>
 
 </resources>

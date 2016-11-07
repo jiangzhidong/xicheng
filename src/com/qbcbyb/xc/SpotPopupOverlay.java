@@ -38,7 +38,10 @@ public class SpotPopupOverlay extends PopupOverlay {
 
     @Override
     public void showPopup(Bitmap arg0, GeoPoint arg1, int arg2) {
-        super.showPopup(addTitle(arg0), arg1, arg2);
+        try {
+            super.showPopup(addTitle(arg0), arg1, arg2);
+        } catch (Exception e) {
+        }
     }
 
     private Bitmap addTitle(Bitmap bitmap) {

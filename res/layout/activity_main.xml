@@ -41,6 +41,14 @@
             android:layout_weight="1" />
 
         <ImageButton
+            android:id="@+id/imgBtnDownload"
+            style="@style/menulistview_first_icon"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_dip_100"
+            android:layout_marginBottom="@dimen/dimen_dip_20"
+            android:src="@drawable/menulistview_first_icon_explain" />
+
+        <ImageButton
             android:id="@+id/imgBtnExplain"
             style="@style/menulistview_first_icon"
             android:layout_width="match_parent"
@@ -98,6 +106,8 @@
 
                 <include
                     android:id="@+id/layoutSpotContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_margin="@dimen/dimen_dip_1"
                     layout="@layout/view_spotcontent"
                     android:visibility="gone" />
