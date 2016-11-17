@@ -1,18 +1,13 @@
 package com.qbcbyb.xc;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
@@ -77,13 +72,19 @@ import com.qbcbyb.xc.util.BDMapOfflineManager;
 import com.qbcbyb.xc.util.GeometryUtil;
 import com.qbcbyb.xc.util.ViewBinderImage;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class MainActivity extends ActivityBase implements MKGeneralListener {
 
     private final int ID_Share = 1;
     private final int ID_Historical = 2;
     private final int ID_Street = 3;
 
-    private Map<Integer,ResponseResult<SpotModel>> cacheSpot = new HashMap<Integer,ResponseResult<SpotModel>>();
+    private Map<Integer, ResponseResult<SpotModel>> cacheSpot = new HashMap<Integer, ResponseResult<SpotModel>>();
 
     private int imsb = 1;
     // 默认字号
@@ -196,6 +197,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
 
         return super.onKeyDown(keyCode, event);
     }
+
     private OnClickListener clickListener = new OnClickListener() {
 
         @Override
@@ -217,9 +219,9 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
                     spinnerNian.setVisibility(View.VISIBLE);
                 }
             } else if (v == btnSpotPano) {
-                openActivityWithSpot(v,PanoActivity.class);
+                openActivityWithSpot(v, PanoActivity.class);
             } else if (v == btnSpotBaike) {
-                openActivityWithSpot(v,BaikeActivity.class);
+                openActivityWithSpot(v, BaikeActivity.class);
             } else if (v == txtBtnSetting) {
                 // TODO设置
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this).setTitle("字号选择");
@@ -232,7 +234,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
                     }
                 };
                 builder.setNegativeButton("取消", singleClickListener);
-                builder.setSingleChoiceItems(new String[] { "小号", "中号", "大号" }, defaultSize, singleClickListener);
+                builder.setSingleChoiceItems(new String[]{"小号", "中号", "大号"}, defaultSize, singleClickListener);
                 AlertDialog dialog = builder.create();
                 dialog.show();
 
@@ -409,7 +411,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
             // 加载图片列表
             layoutSpotImageList.removeAllViews();
             final android.widget.LinearLayout.LayoutParams layoutParams = new android.widget.LinearLayout.LayoutParams(
-                0, 200);
+                    0, 200);
             layoutParams.weight = 1;
             layoutParams.setMargins(10, 10, 10, 10);
             int i = 0;
@@ -433,7 +435,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
                 imageView.setLayoutParams(layoutParams);
                 try {
                     Bitmap bitmap = BitmapConvert.resizeBitmap(ApplicationMain.getInstance().getAssets().open(imgUrl),
-                        200);
+                            200);
                     imageView.setImageBitmap(bitmap);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -489,7 +491,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
                         msg.what = MessageWhat.SearchSpotDetail.ordinal();
                         try {
                             ResponseResult<List<SpotModel>> result = RequestHandler.getInstance().searchSpotDetail(
-                                firstMenuId, secondMenuId, keyWord);
+                                    firstMenuId, secondMenuId, keyWord);
                             if (result.isSuccess()) {
                                 msg.obj = result;
                                 msg.arg1 = RequestStatus.OK.ordinal();
@@ -600,13 +602,19 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
         mapOfflineManager = new BDMapOfflineManager(this, mapView, progressBar);
 
         pageSecondMenu = new Page();
-        spotOverlay = new SpotOverlay(getResources().getDrawable(R.drawable.map_marker_small), mapView);
-        spotOverlayblue = new SpotOverlay(getResources().getDrawable(R.drawable.map_marker_small_blue), mapView);
-        spotOverlaygreed = new SpotOverlay(getResources().getDrawable(R.drawable.map_marker_small_greed), mapView);
-        spotOverlaypurple = new SpotOverlay(getResources().getDrawable(R.drawable.map_marker_small_purple), mapView);
-        spotOverlayred = new SpotOverlay(getResources().getDrawable(R.drawable.map_marker_small_red), mapView);
-        spotOverlayyellow = new SpotOverlay(getResources().getDrawable(R.drawable.map_marker_small_yellow), mapView);
-        spotOverlayorange = new SpotOverlay(getResources().getDrawable(R.drawable.map_marker_small_orange), mapView);
+        BitmapDrawable bitmapDrawable = null;
+        try {
+            bitmapDrawable = new BitmapDrawable(BitmapFactory.decodeStream(getAssets().open("map_check_spot.png")));
+        } catch (IOException e) {
+        }
+        final SpotPopupOverlay pop = new SpotPopupOverlay(bitmapDrawable, mapView);
+        spotOverlay = new SpotOverlay(getResources().getDrawable(R.drawable.map_marker_small), mapView, pop);
+        spotOverlayblue = new SpotOverlay(getResources().getDrawable(R.drawable.map_marker_small_blue), mapView, pop);
+        spotOverlaygreed = new SpotOverlay(getResources().getDrawable(R.drawable.map_marker_small_greed), mapView, pop);
+        spotOverlaypurple = new SpotOverlay(getResources().getDrawable(R.drawable.map_marker_small_purple), mapView, pop);
+        spotOverlayred = new SpotOverlay(getResources().getDrawable(R.drawable.map_marker_small_red), mapView, pop);
+        spotOverlayyellow = new SpotOverlay(getResources().getDrawable(R.drawable.map_marker_small_yellow), mapView, pop);
+        spotOverlayorange = new SpotOverlay(getResources().getDrawable(R.drawable.map_marker_small_orange), mapView, pop);
         mapView.getOverlays().add(spotOverlay);
         mapView.getOverlays().add(spotOverlayblue);
         mapView.getOverlays().add(spotOverlaygreed);
@@ -616,6 +624,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
         mapView.getOverlays().add(spotOverlayorange);
         graphicsOverlay = new GraphicsOverlay(mapView);
         mapView.getOverlays().add(graphicsOverlay);
+        mapView.getOverlays().add(pop);
     }
 
     /**
@@ -660,184 +669,184 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
     @Override
     protected void handleMessage(Message msg) {
         switch (MessageWhat.values()[msg.what]) {
-        case LoadSecondMenu:
+            case LoadSecondMenu:
 
-            if (msg.arg1 == RequestStatus.OK.ordinal()) {
-                ResponseResult<List<SecondMenuModel>> result = (ResponseResult<List<SecondMenuModel>>) msg.obj;
-                pageSecondMenu.setTotalCount(result.getAllCount());
-                List<SecondMenuModel> modelList = result.getResultObj();
+                if (msg.arg1 == RequestStatus.OK.ordinal()) {
+                    ResponseResult<List<SecondMenuModel>> result = (ResponseResult<List<SecondMenuModel>>) msg.obj;
+                    pageSecondMenu.setTotalCount(result.getAllCount());
+                    List<SecondMenuModel> modelList = result.getResultObj();
 
-                if (pageSecondMenu.getNowPage() == 0) {
-                    listAdapterSecondMenu = new ModelAdapter<SecondMenuModel>(this, modelList,
-                        R.layout.menulistview_second, new String[] { "name" }, new int[] { R.id.txtMenuSecond });
-                    listAdapterSecondMenu.setViewBinder(new ViewBinderImage(MainActivity.this));
-                    listAdapterSecondMenu.setOnSelectedChange(onSelectedChange);
-                    listSecondMenu.setAdapter(listAdapterSecondMenu);
-                } else {
-                    listAdapterSecondMenu.addData(modelList);
-                    listAdapterSecondMenu.notifyDataSetChanged();
-                }
-                pageSecondMenu.nextPage();
-            } else if (msg.arg1 == RequestStatus.FAIL.ordinal()) {
-                listSecondMenu.setVisibility(View.GONE);
-                Msg.showInfo(this, "对不起，当前选择无数据！");
-            } else {
-                // Msg.showInfo(this, "获取二级菜单出错！");
-                ((Exception) msg.obj).printStackTrace();
-            }
-            break;
-        case LoadThirdMenu:
-            if (msg.arg1 == RequestStatus.OK.ordinal()) {
-                ResponseResult<List<SpotModel>> result = (ResponseResult<List<SpotModel>>) msg.obj;
-
-                List<SpotModel> modelList = result.getResultObj();
-
-                addSpotListData(modelList);
-                listThirdMenu.setVisibility(View.VISIBLE);
-            } else if (msg.arg1 == RequestStatus.FAIL.ordinal()) {
-                Msg.showInfo(this, "对不起，当前选择无数据！");
-                listThirdMenu.setVisibility(View.GONE);
-            } else {
-                // Msg.showInfo(this, "获取景点列表出错！");
-                ((Exception) msg.obj).printStackTrace();
-                listThirdMenu.setVisibility(View.GONE);
-            }
-            break;
-        case SearchSpotDetail:
-            if (msg.arg1 == RequestStatus.OK.ordinal()) {
-                ResponseResult<List<SpotModel>> result = (ResponseResult<List<SpotModel>>) msg.obj;
-
-                List<SpotModel> modelList = result.getResultObj();
-
-                addSpotListData(modelList);
-
-                listThirdMenu.setVisibility(View.VISIBLE);
-
-            } else if (msg.arg1 == RequestStatus.FAIL.ordinal()) {
-                Msg.showInfo(this, "对不起，当前选择无数据！");
-                listThirdMenu.setVisibility(View.GONE);
-            } else {
-                // Msg.showInfo(this, "查询景点列表出错！");
-                ((Exception) msg.obj).printStackTrace();
-                listThirdMenu.setVisibility(View.GONE);
-            }
-            break;
-        case QuerySpotDetail:
-            if (msg.arg1 == RequestStatus.OK.ordinal()) {
-                ResponseResult<SpotModel> result = (ResponseResult<SpotModel>) msg.obj;
-                final SpotModel spotModel = result.getResultObj();
-                Drawable drawable = null;
-                try {
-                    if (spotModel.getDetailImages() != null && spotModel.getDetailImages().size() > 0) {
-
-                        drawable = Drawable
-                            .createFromStream(
-                                ApplicationMain.getInstance().getAssets().open(spotModel.getDetailImages().get(0)),
-                                "first");
-
+                    if (pageSecondMenu.getNowPage() == 0) {
+                        listAdapterSecondMenu = new ModelAdapter<SecondMenuModel>(this, modelList,
+                                R.layout.menulistview_second, new String[]{"name"}, new int[]{R.id.txtMenuSecond});
+                        listAdapterSecondMenu.setViewBinder(new ViewBinderImage(MainActivity.this));
+                        listAdapterSecondMenu.setOnSelectedChange(onSelectedChange);
+                        listSecondMenu.setAdapter(listAdapterSecondMenu);
                     } else {
-                        drawable = Drawable.createFromStream(
-                            ApplicationMain.getInstance().getAssets().open("img" + spotModel.getImage()), "im");
+                        listAdapterSecondMenu.addData(modelList);
+                        listAdapterSecondMenu.notifyDataSetChanged();
                     }
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                if (drawable != null) {
-                    imgSpot.setAdjustViewBounds(true);
-                    imgSpot.setMaxHeight(358);
-                    imgSpot.setMaxWidth(600);
-                    imgSpot.setImageDrawable(drawable);
+                    pageSecondMenu.nextPage();
+                } else if (msg.arg1 == RequestStatus.FAIL.ordinal()) {
+                    listSecondMenu.setVisibility(View.GONE);
+                    Msg.showInfo(this, "对不起，当前选择无数据！");
                 } else {
-                    imgSpot.setImageResource(R.drawable.nophoto);
+                    // Msg.showInfo(this, "获取二级菜单出错！");
+                    ((Exception) msg.obj).printStackTrace();
                 }
-                // Drawable cachedImage =
-                // DrawableCache.getInstance().loadDrawable(MainActivity.this,
-                // spotModel.getImage(), new ImageCallback() {
-                // public void imageLoaded(Drawable imageDrawable, String url) {
-                // if (imageDrawable != null &&
-                // url.equals(spotModel.getImage())) {
-                // Bitmap bmp = ((BitmapDrawable) imageDrawable).getBitmap();
-                // imgSpot.setImageBitmap(bmp);
-                // }
-                // }
-                // });
-                //
-                // if (cachedImage != null &&
-                // StringUtils.isNotEmpty(spotModel.getImage())) {
-                // Bitmap bmp = ((BitmapDrawable) cachedImage).getBitmap();
-                // imgSpot.setImageBitmap(bmp);
-                // }
+                break;
+            case LoadThirdMenu:
+                if (msg.arg1 == RequestStatus.OK.ordinal()) {
+                    ResponseResult<List<SpotModel>> result = (ResponseResult<List<SpotModel>>) msg.obj;
 
-                txtSpotName.setText(spotModel.getName());
-                txtSpotSummary.setText(spotModel.getDetailSummary());
-                txtSpotAddress.setText(spotModel.getDetailAddress());
-                txtSpotDesc.setText(spotModel.getDetailDesc());
+                    List<SpotModel> modelList = result.getResultObj();
 
-                // 加载图片列表
-                layoutSpotImageList.removeAllViews();
-                spinnerNian.setSelection(0);
-                spinnerNian.setVisibility(View.INVISIBLE);
-                final android.widget.LinearLayout.LayoutParams layoutParams = new android.widget.LinearLayout.LayoutParams(
-                    0, 200);
-                layoutParams.weight = 1;
-                layoutParams.setMargins(10, 10, 10, 10);
-                int i = 0;
-                LinearLayout layout = null;
-                imageList = spotModel.getDetailImages().toArray(new String[0]);
-                for (String imgUrl : imageList) {
-                    imageUrlD = imgUrl;
-                    // if(!imgUrl.contains("2015")){
-                    // continue;
-                    // }
-                    if (i % 3 == 0) {
-                        layout = new LinearLayout(MainActivity.this);
-                        layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-                        layout.setWeightSum(3);
-                        layout.setGravity(Gravity.CENTER_VERTICAL);
-                        layoutSpotImageList.addView(layout);
-                    }
-                    ImageView imageView = new ImageView(MainActivity.this);
-                    imageView.setLayoutParams(layoutParams);
+                    addSpotListData(modelList);
+                    listThirdMenu.setVisibility(View.VISIBLE);
+                } else if (msg.arg1 == RequestStatus.FAIL.ordinal()) {
+                    Msg.showInfo(this, "对不起，当前选择无数据！");
+                    listThirdMenu.setVisibility(View.GONE);
+                } else {
+                    // Msg.showInfo(this, "获取景点列表出错！");
+                    ((Exception) msg.obj).printStackTrace();
+                    listThirdMenu.setVisibility(View.GONE);
+                }
+                break;
+            case SearchSpotDetail:
+                if (msg.arg1 == RequestStatus.OK.ordinal()) {
+                    ResponseResult<List<SpotModel>> result = (ResponseResult<List<SpotModel>>) msg.obj;
+
+                    List<SpotModel> modelList = result.getResultObj();
+
+                    addSpotListData(modelList);
+
+                    listThirdMenu.setVisibility(View.VISIBLE);
+
+                } else if (msg.arg1 == RequestStatus.FAIL.ordinal()) {
+                    Msg.showInfo(this, "对不起，当前选择无数据！");
+                    listThirdMenu.setVisibility(View.GONE);
+                } else {
+                    // Msg.showInfo(this, "查询景点列表出错！");
+                    ((Exception) msg.obj).printStackTrace();
+                    listThirdMenu.setVisibility(View.GONE);
+                }
+                break;
+            case QuerySpotDetail:
+                if (msg.arg1 == RequestStatus.OK.ordinal()) {
+                    ResponseResult<SpotModel> result = (ResponseResult<SpotModel>) msg.obj;
+                    final SpotModel spotModel = result.getResultObj();
+                    Drawable drawable = null;
                     try {
-                        Bitmap bitmap = BitmapConvert.resizeBitmap(
-                            ApplicationMain.getInstance().getAssets().open(imgUrl), 200);
-                        imageView.setImageBitmap(bitmap);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    // imageView.setImageDrawable(Drawable.createFromPath(imgUrl));
-                    imageView.setTag(R.id.tag_first, imageList);
-                    imageView.setTag(R.id.tag_second, i);
-                    layout.addView(imageView);
-                    imageView.setOnClickListener(imageClickListener);
-                    i++;
-                }
-                baseHandler.postDelayed(new Runnable() {
+                        if (spotModel.getDetailImages() != null && spotModel.getDetailImages().size() > 0) {
 
-                    @Override
-                    public void run() {
-                        if (scrollSpotDesc.getChildAt(0).getHeight() <= scrollSpotDesc.getHeight()) {// 无需显示“阅读全文”按钮
-                            layoutViewAll.setVisibility(View.GONE);
+                            drawable = Drawable
+                                    .createFromStream(
+                                            ApplicationMain.getInstance().getAssets().open(spotModel.getDetailImages().get(0)),
+                                            "first");
+
+                        } else {
+                            drawable = Drawable.createFromStream(
+                                    ApplicationMain.getInstance().getAssets().open("img" + spotModel.getImage()), "im");
                         }
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
                     }
-                }, 300);
-                layoutSpotContent.setVisibility(View.VISIBLE);
+                    if (drawable != null) {
+                        imgSpot.setAdjustViewBounds(true);
+                        imgSpot.setMaxHeight(358);
+                        imgSpot.setMaxWidth(600);
+                        imgSpot.setImageDrawable(drawable);
+                    } else {
+                        imgSpot.setImageResource(R.drawable.nophoto);
+                    }
+                    // Drawable cachedImage =
+                    // DrawableCache.getInstance().loadDrawable(MainActivity.this,
+                    // spotModel.getImage(), new ImageCallback() {
+                    // public void imageLoaded(Drawable imageDrawable, String url) {
+                    // if (imageDrawable != null &&
+                    // url.equals(spotModel.getImage())) {
+                    // Bitmap bmp = ((BitmapDrawable) imageDrawable).getBitmap();
+                    // imgSpot.setImageBitmap(bmp);
+                    // }
+                    // }
+                    // });
+                    //
+                    // if (cachedImage != null &&
+                    // StringUtils.isNotEmpty(spotModel.getImage())) {
+                    // Bitmap bmp = ((BitmapDrawable) cachedImage).getBitmap();
+                    // imgSpot.setImageBitmap(bmp);
+                    // }
 
-                btnSpotPano.setTag(spotModel);
-                btnSpotBaike.setTag(spotModel);
+                    txtSpotName.setText(spotModel.getName());
+                    txtSpotSummary.setText(spotModel.getDetailSummary());
+                    txtSpotAddress.setText(spotModel.getDetailAddress());
+                    txtSpotDesc.setText(spotModel.getDetailDesc());
 
-            } else if (msg.arg1 == RequestStatus.FAIL.ordinal()) {
-                Msg.showInfo(this, "对不起，当前选择无数据！");
-            } else {
-                // Msg.showInfo(this, "获取景点出错！");
-                ((Exception) msg.obj).printStackTrace();
-            }
-            break;
-        default:
-            break;
+                    // 加载图片列表
+                    layoutSpotImageList.removeAllViews();
+                    spinnerNian.setSelection(0);
+                    spinnerNian.setVisibility(View.INVISIBLE);
+                    final android.widget.LinearLayout.LayoutParams layoutParams = new android.widget.LinearLayout.LayoutParams(
+                            0, 200);
+                    layoutParams.weight = 1;
+                    layoutParams.setMargins(10, 10, 10, 10);
+                    int i = 0;
+                    LinearLayout layout = null;
+                    imageList = spotModel.getDetailImages().toArray(new String[0]);
+                    for (String imgUrl : imageList) {
+                        imageUrlD = imgUrl;
+                        // if(!imgUrl.contains("2015")){
+                        // continue;
+                        // }
+                        if (i % 3 == 0) {
+                            layout = new LinearLayout(MainActivity.this);
+                            layout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+                            layout.setWeightSum(3);
+                            layout.setGravity(Gravity.CENTER_VERTICAL);
+                            layoutSpotImageList.addView(layout);
+                        }
+                        ImageView imageView = new ImageView(MainActivity.this);
+                        imageView.setLayoutParams(layoutParams);
+                        try {
+                            Bitmap bitmap = BitmapConvert.resizeBitmap(
+                                    ApplicationMain.getInstance().getAssets().open(imgUrl), 200);
+                            imageView.setImageBitmap(bitmap);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        // imageView.setImageDrawable(Drawable.createFromPath(imgUrl));
+                        imageView.setTag(R.id.tag_first, imageList);
+                        imageView.setTag(R.id.tag_second, i);
+                        layout.addView(imageView);
+                        imageView.setOnClickListener(imageClickListener);
+                        i++;
+                    }
+                    baseHandler.postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            if (scrollSpotDesc.getChildAt(0).getHeight() <= scrollSpotDesc.getHeight()) {// 无需显示“阅读全文”按钮
+                                layoutViewAll.setVisibility(View.GONE);
+                            }
+                        }
+                    }, 300);
+                    layoutSpotContent.setVisibility(View.VISIBLE);
+
+                    btnSpotPano.setTag(spotModel);
+                    btnSpotBaike.setTag(spotModel);
+
+                } else if (msg.arg1 == RequestStatus.FAIL.ordinal()) {
+                    Msg.showInfo(this, "对不起，当前选择无数据！");
+                } else {
+                    // Msg.showInfo(this, "获取景点出错！");
+                    ((Exception) msg.obj).printStackTrace();
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -876,7 +885,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
                 msg.what = MessageWhat.LoadSecondMenu.ordinal();
                 try {
                     ResponseResult<List<SecondMenuModel>> result = RequestHandler.getInstance().loadSecondMenu(
-                        firstMenuId, pageSecondMenu.getNowPage(), pageSecondMenu.getPageSize());
+                            firstMenuId, pageSecondMenu.getNowPage(), pageSecondMenu.getPageSize());
                     if (result.isSuccess()) {
                         msg.obj = result;
                         msg.arg1 = RequestStatus.OK.ordinal();
@@ -932,7 +941,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
                 polylinePoints[i] = new GeoPoint((int) (mapPoint.getY() * 1E6), (int) (mapPoint.getX() * 1E6));
                 if (bounds == null) {
                     bounds = new Bounds(polylinePoints[i].getLatitudeE6(), polylinePoints[i].getLongitudeE6(),
-                        polylinePoints[i].getLatitudeE6(), polylinePoints[i].getLongitudeE6());
+                            polylinePoints[i].getLatitudeE6(), polylinePoints[i].getLongitudeE6());
                 } else if (!GeometryUtil.isPointInRect(bounds, polylinePoints[i])) {
                     GeometryUtil.unionPointAndRect(bounds, polylinePoints[i]);
                 }
@@ -964,8 +973,8 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
             graphicsOverlay.setData(polygonGraphic);
             int aa = (bounds.rightTop.getLatitudeE6() + bounds.leftBottom.getLatitudeE6()) / 2;
             mapView.getController().setCenter(
-                new GeoPoint((bounds.rightTop.getLatitudeE6() + bounds.leftBottom.getLatitudeE6()) / 2,
-                    (bounds.rightTop.getLongitudeE6() + bounds.leftBottom.getLongitudeE6()) / 2));
+                    new GeoPoint((bounds.rightTop.getLatitudeE6() + bounds.leftBottom.getLatitudeE6()) / 2,
+                            (bounds.rightTop.getLongitudeE6() + bounds.leftBottom.getLongitudeE6()) / 2));
             if (imsb == 0) {
                 mapView.getController().setZoom(16);
                 imsb++;
@@ -974,7 +983,7 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
                 imsb++;
             } else {
                 mapView.getController().zoomToSpan(bounds.rightTop.getLatitudeE6() - bounds.leftBottom.getLatitudeE6(),
-                    bounds.rightTop.getLongitudeE6() - bounds.leftBottom.getLongitudeE6());
+                        bounds.rightTop.getLongitudeE6() - bounds.leftBottom.getLongitudeE6());
             }
 
             // mapView.getController().setZoom(13);
@@ -1068,9 +1077,9 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
     }
 
     private void addSpotListData(List<SpotModel> modelList) {
-        listAdapterThirdMenu = new ModelAdapter<SpotModel>(this, modelList, R.layout.menulistview_third, new String[] {
-                "image", "name", "detailAddress" }, new int[] { R.id.imgMenuThird, R.id.txtMenuThirdTitle,
-                R.id.txtMenuThirdContent });
+        listAdapterThirdMenu = new ModelAdapter<SpotModel>(this, modelList, R.layout.menulistview_third, new String[]{
+                "image", "name", "detailAddress"}, new int[]{R.id.imgMenuThird, R.id.txtMenuThirdTitle,
+                R.id.txtMenuThirdContent});
         listAdapterThirdMenu.setViewBinder(new ViewBinderImage(MainActivity.this));
         listAdapterThirdMenu.setOnSelectedChange(onSelectedChange);
         listThirdMenu.setAdapter(listAdapterThirdMenu);
@@ -1140,10 +1149,10 @@ public class MainActivity extends ActivityBase implements MKGeneralListener {
         this.imageUrlD = imageUrlD;
     }
 
-    private void openActivityWithSpot(View btn,Class<? extends Activity> clasz) {
+    private void openActivityWithSpot(View btn, Class<? extends Activity> clasz) {
         if (btn.getTag() != null && btn.getTag() instanceof SpotModel) {
             SpotModel model = (SpotModel) btn.getTag();
-            Intent intent=new Intent(MainActivity.this, clasz);
+            Intent intent = new Intent(MainActivity.this, clasz);
             intent.putExtra(KEY_SPOT, model);
             startActivity(intent);
         }
