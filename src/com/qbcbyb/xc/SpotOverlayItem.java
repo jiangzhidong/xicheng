@@ -1,14 +1,14 @@
 package com.qbcbyb.xc;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.baidu.mapapi.map.OverlayItem;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
 import com.qbcbyb.xc.model.CGeometry;
 import com.qbcbyb.xc.model.CGeometry.CGeometryType;
 import com.qbcbyb.xc.model.CGeometry.MapPoint;
 import com.qbcbyb.xc.model.SpotModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpotOverlayItem extends OverlayItem {
 
@@ -33,7 +33,7 @@ public class SpotOverlayItem extends OverlayItem {
         if (geometry != null && geometry.getType() == CGeometryType.multipoint) {
             for (MapPoint mapPoint : geometry.getPoints()) {
                 list.add(new SpotOverlayItem(
-                    new GeoPoint((int) (mapPoint.getY() * 1E6), (int) (mapPoint.getX() * 1E6)), spotModel));
+                        new GeoPoint((int) (mapPoint.getY() * 1E6), (int) (mapPoint.getX() * 1E6)), spotModel));
             }
         }
         return list;
@@ -45,7 +45,7 @@ public class SpotOverlayItem extends OverlayItem {
         if (geometry.getType() == CGeometryType.multipoint) {
             for (MapPoint mapPoint : geometry.getPoints()) {
                 overlayItem = new SpotOverlayItem(new GeoPoint((int) (mapPoint.getY() * 1E6),
-                    (int) (mapPoint.getX() * 1E6)), spotModel);
+                        (int) (mapPoint.getX() * 1E6)), spotModel);
                 break;
             }
         }

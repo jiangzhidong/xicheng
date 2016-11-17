@@ -1,22 +1,30 @@
 package com.qbcbyb.xc;
 
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Align;
-import android.graphics.Rect;
+import android.graphics.Point;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 
+import com.baidu.mapapi.map.ItemizedOverlay;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.OverlayItem;
 import com.baidu.mapapi.map.PopupClickListener;
-import com.baidu.mapapi.map.PopupOverlay;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
+import com.baidu.platform.comapi.map.Projection;
 import com.qbcbyb.xc.model.SpotModel;
 
-public class SpotPopupOverlay extends PopupOverlay {
+import java.util.concurrent.atomic.AtomicBoolean;
+
+public class SpotPopupOverlay extends ItemizedOverlay<OverlayItem> {
 
     private SpotModel spotModel;
+    private AtomicBoolean canTap = new AtomicBoolean(true);
+    private Runnable action = new Runnable() {
+        @Override
+        public void run() {
+            SpotPopupOverlay.this.canTap.set(true);
+        }
+    };
+    private boolean handled = false;
 
     public SpotModel getSpotModel() {
         return spotModel;
@@ -26,39 +34,54 @@ public class SpotPopupOverlay extends PopupOverlay {
         this.spotModel = spotModel;
     }
 
-    public SpotPopupOverlay(MapView arg0, PopupClickListener arg1) {
-        super(arg0, arg1);
+    private PopupClickListener popupClickListener;
+
+    public SpotPopupOverlay(Drawable drawable, MapView mapView) {
+        super(drawable, mapView);
     }
 
-    @Override
-    public void showPopup(Bitmap[] arg0, GeoPoint arg1, int arg2) {
-        arg0[1] = addTitle(arg0[1]);
-        super.showPopup(arg0, arg1, arg2);
+    public boolean isHandled() {
+        return handled;
     }
 
-    @Override
-    public void showPopup(Bitmap arg0, GeoPoint arg1, int arg2) {
-        try {
-            super.showPopup(addTitle(arg0), arg1, arg2);
-        } catch (Exception e) {
+    public void onTapBeforeOther(GeoPoint pt, MapView mapView) {
+        mapView.removeCallbacks(action);
+        mapView.postDelayed(action, 500);
+        if (!canTap.getAndSet(false)) {
+            return;
+        }
+        final Projection projection = mapView.getProjection();
+        final Point point = new Point();
+        projection.toPixels(pt, point);
+        double minDistance = Double.MAX_VALUE;
+        Point itemPoint = new Point();
+        for (OverlayItem overlayItem : getAllItem()) {
+            projection.toPixels(overlayItem.getPoint(), itemPoint);
+            double sqrt = Math.sqrt(Math.pow(itemPoint.x - point.x, 2) + Math.pow(itemPoint.y - point.y, 2));
+            if (sqrt < minDistance) {
+                minDistance = sqrt;
+            }
+        }
+        if (minDistance < mapView.getWidth() / 20) {
+            if (popupClickListener != null) {
+                popupClickListener.onClickedPopup(0);
+            }
+            this.handled = true;
+        } else {
+            this.handled = false;
         }
     }
 
-    private Bitmap addTitle(Bitmap bitmap) {
-        if (spotModel != null) {
-            String title = spotModel.getName();
-            Bitmap toDrawBitmap = bitmap.copy(Config.ARGB_8888, true);
-            Canvas canvas = new Canvas(toDrawBitmap);
-            Paint paint = new Paint();
-            paint.setTextSize(17);
-            paint.setColor(Color.BLACK);
-            Rect bounds = new Rect();
-            paint.getTextBounds(title, 0, title.length(), bounds);
-            canvas.drawText(title, (toDrawBitmap.getWidth() - bounds.width()) / 2f,
-                (toDrawBitmap.getHeight() - 10 + bounds.height()) / 2f, paint);
-            return toDrawBitmap;
-        }
-        return bitmap;
+    public void showPopup(GeoPoint arg1, PopupClickListener popupClickListener) {
+        this.popupClickListener = popupClickListener;
+        removeAll();
+        addItem(new OverlayItem(arg1, spotModel.getName(), spotModel.getDetailAddress()));
+        mMapView.refresh();
+    }
+
+    public void hidePop() {
+        removeAll();
+        mMapView.refresh();
     }
 
 }
